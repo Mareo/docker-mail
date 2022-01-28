@@ -1,0 +1,34 @@
+include:
+  - template: Container-Scanning.gitlab-ci.yml
+
+stages:
+  - build
+  - qa
+
+build:
+  stage: build
+  image:
+    name: registry.cri.epita.fr/cri/docker/mirror/moby/buildkit:rootless
+    entrypoint: [""]
+  variables:
+    BUILDKITD_FLAGS: --oci-worker-no-process-sandbox
+  before_script:
+    - mkdir ~/.docker
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > ~/.docker/config.json
+  script:
+    - |
+      buildctl-daemonless.sh build \
+          --frontend=dockerfile.v0 \
+          --local context=. \
+          --local dockerfile=. \
+          --output type=image,\"name=$CI_REGISTRY_IMAGE:$CI_COMMIT_SHA,$CI_REGISTRY_IMAGE:latest\",push=true \
+          --import-cache type=registry,ref=$CI_REGISTRY_IMAGE:buildcache \
+          --export-cache type=registry,ref=$CI_REGISTRY_IMAGE:buildcache,mode=max
+
+container_scanning:
+  stage: qa
+  needs:
+    - build
+  variables:
+    DOCKER_SERVICE: localhost
+    CI_APPLICATION_REPOSITORY: $CI_REGISTRY_IMAGE
