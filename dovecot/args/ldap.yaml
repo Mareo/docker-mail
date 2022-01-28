@@ -1,0 +1,15 @@
+---
+uris: null
+dn: null
+dnpass: null
+tls: null
+auth_bind: "yes"
+version: "3"
+base: null
+scope: null
+user_attrs: uidNumber=uid,gidNumber=gid
+user_filter: (&(objectClass=posixAccount)(uid=%n))
+pass_attrs: uid=user,userPassword=password,uidNumber=userdb_uid,gidNumber=userdb_gid
+pass_filter: (&(objectClass=posixAccount)(uid=%n))
+iterate_attrs: uid=user
+iterate_filter: (objectClass=posixAccount)

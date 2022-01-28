@@ -1,0 +1,42 @@
+---
+
+# Needed for capitalization
+lmtp_tls_CAfile: null
+lmtp_tls_CApath: null
+smtp_tls_CAfile: null
+smtp_tls_CApath: null
+smtpd_tls_CAfile: null
+smtpd_tls_CApath: null
+tls_append_default_CA: null
+tlsproxy_client_CAfile: null
+tlsproxy_client_CApath: null
+
+# Misc
+mydestination: "$myhostname, localhost"
+mynetworks: "127.0.0.0/8, [::1/128]"
+inet_protocols: "ipv4"
+smtp_host_lookup: "dns, native"
+lmtp_host_lookup: "dns, native"
+
+# SASL
+smtpd_sasl_auth_enable: "yes"
+smtpd_sasl_authenticated_header: "yes"
+smtpd_sasl_type: "dovecot"
+smtpd_sasl_path: "private/auth"
+smtpd_sasl_security_options: "noanonymous, noplaintext"
+smtpd_sasl_tls_security_options: "noanonymous"
+
+# DKIM
+milter_default_action: "accept"
+milter_protocol: 6
+smtpd_milters: "local:opendkim/opendkim.sock"
+non_smtpd_milters: "local:opendkim/opendkim.sock"
+
+# TLS
+tls_append_default_CA: "yes"
+
+# SRS
+sender_canonical_maps: tcp:localhost:10001
+sender_canonical_classes: envelope_sender
+recipient_canonical_maps: tcp:localhost:10002
+recipient_canonical_classes: envelope_recipient,header_recipient

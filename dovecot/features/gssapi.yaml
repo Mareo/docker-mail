@@ -1,0 +1,2 @@
+auth_mechanisms: gssapi plain login
+auth_krb5_keytab: /etc/krb5.keytab

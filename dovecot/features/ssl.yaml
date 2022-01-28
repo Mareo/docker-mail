@@ -1,0 +1,3 @@
+ssl_dh: "</usr/share/dovecot/dh.pem"
+disable_plaintext_auth: "yes"
+ssl_client_ca_dir: /etc/ssl/certs
