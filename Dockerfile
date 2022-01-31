@@ -6,7 +6,6 @@ RUN apt-get update && \
       dovecot-common \
       dovecot-gssapi \
       dovecot-ldap \
-      gettext-base \
       opendkim \
       postfix \
       postfix-ldap \
