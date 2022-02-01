@@ -2,6 +2,7 @@ include:
   - template: Container-Scanning.gitlab-ci.yml
 
 stages:
+  - lint
   - build
   - qa
 
@@ -32,3 +33,12 @@ container_scanning:
   variables:
     DOCKER_SERVICE: localhost
     CI_APPLICATION_REPOSITORY: $CI_REGISTRY_IMAGE
+
+shellcheck:
+  stage: lint
+  image: koalaman/shellcheck-alpine:stable
+  before_script:
+    - shellcheck --version
+  script:
+    - shellcheck *.sh
+
