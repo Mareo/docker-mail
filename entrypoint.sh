@@ -1,17 +1,21 @@
 #!/bin/sh
 
+toupper() {
+    printf '%s' "$(printf '%s' "$1" | tr '[:lower:]' '[:upper:]')"
+}
+
 exec_dovecot() {
     for f in /etc/dovecot/args/*.yaml; do
         name="$(basename "$f" .yaml)"
-        /envconf.py "$f" "DOVECOT_$(echo $name | tr a-z A-Z)" = > \
-          /etc/dovecot/args/${name}.conf
+        /envconf.py "$f" "DOVECOT_$(toupper "$name")" = > \
+          "/etc/dovecot/args/${name}.conf"
     done
 
     for feature in ${DOVECOT_FEATURES:-}; do
         if [ -f "/etc/dovecot/features/${feature}.yaml" ]; then
             /envconf.py "/etc/dovecot/features/${feature}.yaml" \
-              "DOVECOT_$(echo $feature | tr a-z A-Z)" = >> \
-              /etc/dovecot/features/${feature}.conf
+              "DOVECOT_$(toupper "$feature")" = >> \
+              "/etc/dovecot/features/${feature}.conf"
         fi
         echo "!include features/${feature}.conf" >> /etc/dovecot/local.conf
     done
@@ -51,7 +55,7 @@ exec_postsrsd() {
             exit 1
         fi
        export POSTSRSD_SECRET_FILE="/etc/postsrsd.secret"
-       echo -n "${POSTSRSD_SECRET}" > "${POSTSRSD_SECRET_FILE}"
+       echo "${POSTSRSD_SECRET}" > "${POSTSRSD_SECRET_FILE}"
     fi
     if [ -n "${POSTSRSD_EXCLUDE_DOMAINS}" ]; then
         _POSTSRSD_EXCLUDE_DOMAINS="-X${POSTSRSD_EXCLUDE_DOMAINS} "
