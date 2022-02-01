@@ -20,6 +20,11 @@ exec_dovecot() {
 }
 
 exec_opendkim() {
+    if [ -n "$OPENDKIM_KEYFILE" ]; then
+        cp "$OPENDKIM_KEYFILE" /etc/opendkim/key.pem
+        chmod 0440 /etc/opendkim/key.pem
+        export OPENDKIM_KEYFILE="/etc/opendkim/key.pem"
+    fi
     /envconf.py /etc/opendkim/defs.yaml OPENDKIM "" >> /etc/opendkim/opendkim.conf
     mkdir -p /var/spool/postfix/opendkim
     chown opendkim:postfix /var/spool/postfix/opendkim
