@@ -36,6 +36,7 @@ exec_opendkim() {
 
 exec_postfix() {
     /envconf.py /etc/postfix/defs.yaml POSTFIX = >> /etc/postfix/main.cf
+    postfix set-permissions
     exec postfix start-fg
 }
 
