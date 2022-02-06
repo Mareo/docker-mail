@@ -57,7 +57,7 @@ exec_postfix() {
     fi
     /envconf.py /etc/postfix/defs.yaml POSTFIX = >> /etc/postfix/main.cf
     find "/etc/postfix/" -name '*.ldap' -exec \
-      sh -c '/envconf.py /etc/postfix/ldap.yaml POSTFIX_LDAP = >> "$1"; chown postfix "$1"; chmod 0400 "$1"' sh {} \;
+      sh -c '/envconf.py /etc/postfix/ldap.yaml LDAP = >> "$1"; chown postfix "$1"; chmod 0400 "$1"' sh {} \;
     prepare_postfix_chroot
     postfix set-permissions
     exec postfix start-fg
