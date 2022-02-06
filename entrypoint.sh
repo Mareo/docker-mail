@@ -38,8 +38,22 @@ exec_opendkim() {
       -x /etc/opendkim/opendkim.conf
 }
 
+prepare_postfix_chroot() {
+    for d in dev etc usr; do
+        mkdir -p "/var/spool/postfix/$d"
+    done
+    cp -a /usr/lib /var/spool/postfix/usr/
+    ln -sf /usr/lib /var/spool/postfix/lib
+    cp -a /dev/random /dev/urandom /var/spool/postfix/dev/
+    cp -a /etc/ssl /var/spool/postfix/etc/
+    for f in host.conf hosts localtime nsswitch.conf resolv.conf services; do
+        cp -a "/etc/$f" "/var/spool/postfix/etc/$f"
+    done
+}
+
 exec_postfix() {
     /envconf.py /etc/postfix/defs.yaml POSTFIX = >> /etc/postfix/main.cf
+    prepare_postfix_chroot
     postfix set-permissions
     exec postfix start-fg
 }
