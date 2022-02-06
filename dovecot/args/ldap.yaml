@@ -4,7 +4,7 @@ dn: null
 dnpass: null
 tls: null
 auth_bind: "yes"
-version: "3"
+ldap_version: "3"
 base: null
 scope: null
 user_attrs: uidNumber=uid,gidNumber=gid
