@@ -35,6 +35,9 @@ non_smtpd_milters: "local:opendkim/opendkim.sock"
 # TLS
 tls_append_default_CA: "yes"
 smtpd_tls_auth_only: "yes"
+lmtp_tls_security_level: "may"
+smtp_tls_security_level: "may"
+smtpd_tls_security_level: "may"
 
 # SRS
 sender_canonical_maps: tcp:localhost:10001
