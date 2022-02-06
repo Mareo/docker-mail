@@ -44,7 +44,7 @@ prepare_postfix_chroot() {
     done
     cp -a /usr/lib /var/spool/postfix/usr/
     ln -sf /usr/lib /var/spool/postfix/lib
-    cp -a /dev/random /dev/urandom /var/spool/postfix/dev/
+    cp -a /dev/stdout /dev/random /dev/urandom /var/spool/postfix/dev/
     cp -a /etc/ssl /var/spool/postfix/etc/
     for f in host.conf hosts localtime nsswitch.conf resolv.conf services; do
         cp -a "/etc/$f" "/var/spool/postfix/etc/$f"
